@@ -5,6 +5,7 @@ import Login from './pages/Login';
 import About from './pages/About';
 import ThemeToggle from './components/ThemeToggle';
 import HeroSection from './pages/hero-section';
+import Shopcreate from './pages/Shopcreate';
 import './App.css';
 
 const App = () => {
@@ -17,6 +18,7 @@ const App = () => {
           <Route path="/signup" element={<Signup />} />
           <Route path="/login" element={<Login />} />
           <Route path="/about" element={<About />} />
+          <Route path="/shopcreate" element={<Shopcreate />} />
         </Routes>
       </div>
     </Router>
