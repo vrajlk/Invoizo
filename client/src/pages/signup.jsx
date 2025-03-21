@@ -16,7 +16,9 @@ const Signup = () => {
         username,
         number,
         password,
-      });
+      },
+      { withCredentials: true }
+    );
 
       alert("Signup Successful!");
       console.log(res.data);

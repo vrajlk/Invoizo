@@ -18,7 +18,8 @@ const loginAdmin = async (req, res) => {
         const token = generateToken(AdminExists);
 
         // Check if request comes from a browser (cookie) or mobile (header)
-        const isWeb = req.headers["user-agent"] && req.headers["user-agent"].includes("Mozilla");
+        const userAgent = req.headers["user-agent"];
+        const isWeb = userAgent && (userAgent.includes("Mozilla") || userAgent.includes("PostmanRuntime"));
         
         if (isWeb) {
             // For Web: Store token in an HTTP-only cookie

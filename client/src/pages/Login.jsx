@@ -14,7 +14,9 @@ const Login = () => {
       const res = await axios.post("http://localhost:3000/api/admin/login", {
         number,
         password,
-      });
+      }, 
+      { withCredentials: true });
+      
 
       alert("Login Successful!");
       console.log(res.data);
