@@ -2,11 +2,13 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useState } from "react";
 import axios from "axios";
+
 import { useNavigate } from "react-router-dom";
 const Login = () => {
   const [number, setNumber] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
   const handleLogin = async (e) => {
     e.preventDefault();
 
@@ -19,7 +21,10 @@ const Login = () => {
       
 
       alert("Login Successful!");
+
       navigate("/shopselection");
+
+
       console.log(res.data);
       // Store JWT Token (Optional)
       localStorage.setItem("token", res.data.token);
