@@ -3,8 +3,9 @@ const app = express();
 const port = 3000;
 const connectiondb = require('./config/db.js');
 const router = require('./routes/Authroutes.js');
+const shopRoutes = require('./routes/Shoproutes.js');
 const cors = require('cors');
-
+const cookieParser = require('cookie-parser');
 app.use(cors({
     origin: 'http://localhost:5173',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -12,9 +13,10 @@ app.use(cors({
 }));
 
 app.use(express.json()); // Middleware to parse JSON bodies
+app.use(cookieParser());
 
-app.use('/api/admin', router); // Use the router with the correct path
-
+app.use('/api/admin', router ); // Use the router with the correct path
+app.use('/api/shop', shopRoutes);
 // const rateLimit = require('express-rate-limit');
 // const limiter = rateLimit({
 //     windowMs: 15 * 60 * 1000, // 15 minutes
