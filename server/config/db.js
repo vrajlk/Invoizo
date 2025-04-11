@@ -9,6 +9,8 @@ const dbConnection = async () => {
       useNewUrlParser: true,
     });
     console.log('Database connected');
+    console.log("Using database:", mongoose.connection.name);
+
   } catch (error) {
     console.log('Error connecting to database', error);
   }
