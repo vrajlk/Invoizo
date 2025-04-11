@@ -4,16 +4,19 @@ import Signup from './pages/signup';
 import Login from './pages/Login';
 import About from './pages/About';
 import ThemeToggle from './components/ThemeToggle';
-import HeroSection from './pages/hero-section';
-
+import HeroSection from './pages/HeroSection';
+import ShopSelection from './pages/Shopselection';
 import Shopcreate from './pages/Shopcreate';
+// import AuthPage from './pages/Authpage';
+// import Testlogin from './pages/testlogin'
+// import Lastlogin from './pages/lastlogintest'
 
 import './App.css';
 
 const App = () => {
   return (
     <Router>
-      <div className="min-h-screen w-full fixed inset-0 bg-white dark:bg-gray-900 transition-colors duration-300">
+      <div className="min-h-screen w-full inset-0 bg-white dark:bg-gray-900 transition-colors duration-300">
         <ThemeToggle />
         <Routes>
           <Route path="/" element={<HeroSection />} />
@@ -22,6 +25,7 @@ const App = () => {
           <Route path="/about" element={<About />} />
 
           <Route path="/shopcreate" element={<Shopcreate />} />
+          <Route path="/shopselection" element={<ShopSelection />} />
 
         </Routes>
       </div>
