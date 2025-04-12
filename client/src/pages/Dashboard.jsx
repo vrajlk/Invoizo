@@ -26,9 +26,9 @@ function AppContainer() {
   const navigate = useNavigate();
 
   useEffect(() => {
-    const checkAuth = async () => {
+    const Dashauth = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/admin/check-auth", {
+        const response = await axios.get("http://localhost:3000/api/admin/dashauth", {
           withCredentials: true,
         });
 
@@ -43,7 +43,7 @@ function AppContainer() {
       }
     };
 
-    checkAuth();
+    Dashauth();
   }, []);
 
   useEffect(() => {
