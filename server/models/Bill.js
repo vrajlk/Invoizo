@@ -17,7 +17,7 @@ const LineItemSchema = new mongoose.Schema({
 
 const BillSchema = new mongoose.Schema({
   userId: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Number,
     ref: "User",
     required: true,
   },
