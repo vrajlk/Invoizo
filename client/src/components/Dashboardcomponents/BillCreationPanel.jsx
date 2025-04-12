@@ -1,11 +1,9 @@
-"use client"
-
-import { useState, useEffect, useRef } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { createBill, updateBill } from "../../api/billsApi"
-import { useToast } from "../../hooks/useToast"
-import { useSpeechRecognition } from "../../hooks/useSpeechRecognition"
-import LoadingSpinner from "./LoadingSpinner"
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { createBill, updateBill } from "../../api/billsApi";
+import { useToast } from "../../hooks/useToast";
+import { useSpeechRecognition } from "../../hooks/useSpeechRecognition";
+import LoadingSpinner from "./LoadingSpinner";
 
 function BillCreationPanel({ setCurrentView, selectedBill }) {
   const [formData, setFormData] = useState({
@@ -14,89 +12,100 @@ function BillCreationPanel({ setCurrentView, selectedBill }) {
     number: "",
     customer: "",
     lineItems: [{ itemName: "", quantity: "", price: "" }],
-  })
-  const [errors, setErrors] = useState({})
-  const [isSubmitting, setIsSubmitting] = useState(false)
-  const [isProcessingAI, setIsProcessingAI] = useState(false)
-  const { showToast } = useToast()
-  const { isListening, transcript, startListening, stopListening, resetTranscript, language, setLanguage } =
-    useSpeechRecognition()
+  });
+  const [errors, setErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isProcessingAI, setIsProcessingAI] = useState(false);
+  const { showToast } = useToast();
+  const {
+    isListening,
+    transcript,
+    startListening,
+    stopListening,
+    resetTranscript,
+    language,
+    setLanguage,
+  } = useSpeechRecognition();
 
-  const aiInputRef = useRef(null)
+  const aiInputRef = useRef(null);
 
   useEffect(() => {
-    // If editing an existing bill, populate the form
     if (selectedBill) {
       setFormData({
         name: selectedBill.name || "",
-        deliveryDate: selectedBill.deliveryDate ? new Date(selectedBill.deliveryDate).toISOString().split("T")[0] : "",
+        deliveryDate: selectedBill.deliveryDate
+          ? new Date(selectedBill.deliveryDate).toISOString().split("T")[0]
+          : "",
         number: selectedBill.number || "",
         customer: selectedBill.customer || "",
         lineItems:
           selectedBill.lineItems && selectedBill.lineItems.length > 0
-            ? selectedBill.lineItems
+            ? selectedBill.lineItems.map((item) => ({
+                itemName: item.itemName,
+                quantity: String(item.quantity),
+                price: String(item.price),
+              }))
             : [{ itemName: "", quantity: "", price: "" }],
-      })
+      });
     }
-  }, [selectedBill])
+  }, [selectedBill]);
 
   const validateForm = () => {
-    const newErrors = {}
+    const newErrors = {};
 
-    if (!formData.name.trim()) newErrors.name = "Bill name is required"
-    if (!formData.deliveryDate) newErrors.deliveryDate = "Delivery date is required"
-    if (!formData.number.trim()) newErrors.number = "Bill number is required"
-    if (!formData.customer.trim()) newErrors.customer = "Customer name is required"
+    if (!formData.name.trim()) newErrors.name = "Bill name is required";
+    if (!formData.deliveryDate) newErrors.deliveryDate = "Delivery date is required";
+    if (!formData.number.trim()) newErrors.number = "Bill number is required";
+    if (!formData.customer.trim()) newErrors.customer = "Customer name is required";
 
-    // Validate line items
-    const lineItemErrors = []
+    const lineItemErrors = [];
     formData.lineItems.forEach((item, index) => {
-      const itemErrors = {}
-      if (!item.itemName.trim()) itemErrors.itemName = "Item name is required"
+      const itemErrors = {};
+      if (!item.itemName.trim()) itemErrors.itemName = "Item name is required";
       if (!item.quantity) {
-        itemErrors.quantity = "Quantity is required"
+        itemErrors.quantity = "Quantity is required";
       } else if (isNaN(item.quantity) || Number(item.quantity) <= 0) {
-        itemErrors.quantity = "Quantity must be a positive number"
+        itemErrors.quantity = "Quantity must be a positive number";
       }
       if (!item.price) {
-        itemErrors.price = "Price is required"
+        itemErrors.price = "Price is required";
       } else if (isNaN(item.price) || Number(item.price) <= 0) {
-        itemErrors.price = "Price must be a positive number"
+        itemErrors.price = "Price must be a positive number";
       }
 
       if (Object.keys(itemErrors).length > 0) {
-        lineItemErrors[index] = itemErrors
+        lineItemErrors[index] = itemErrors;
       }
-    })
+    });
 
     if (lineItemErrors.length > 0) {
-      newErrors.lineItems = lineItemErrors
+      newErrors.lineItems = lineItemErrors;
     }
 
-    setErrors(newErrors)
-    return Object.keys(newErrors).length === 0
-  }
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleInputChange = (e) => {
-    const { name, value } = e.target
+    const { name, value } = e.target;
     setFormData((prev) => ({
       ...prev,
       [name]: value,
-    }))
-  }
+    }));
+  };
 
   const handleLineItemChange = (index, field, value) => {
-    const updatedLineItems = [...formData.lineItems]
+    const updatedLineItems = [...formData.lineItems];
     updatedLineItems[index] = {
       ...updatedLineItems[index],
       [field]: value,
-    }
+    };
 
     setFormData((prev) => ({
       ...prev,
       lineItems: updatedLineItems,
-    }))
-  }
+    }));
+  };
 
   const addLineItem = () => {
     setFormData((prev) => ({
@@ -107,106 +116,136 @@ function BillCreationPanel({ setCurrentView, selectedBill }) {
         { itemName: "", quantity: "", price: "" },
         { itemName: "", quantity: "", price: "" },
       ],
-    }))
-  }
+    }));
+  };
 
   const removeLineItem = (index) => {
-    const updatedLineItems = formData.lineItems.filter((_, i) => i !== index)
+    const updatedLineItems = formData.lineItems.filter((_, i) => i !== index);
     setFormData((prev) => ({
       ...prev,
-      lineItems: updatedLineItems.length > 0 ? updatedLineItems : [{ itemName: "", quantity: "", price: "" }],
-    }))
-  }
+      lineItems:
+        updatedLineItems.length > 0
+          ? updatedLineItems
+          : [{ itemName: "", quantity: "", price: "" }],
+    }));
+  };
 
   const handleSubmit = async (e) => {
-    e.preventDefault()
+    e.preventDefault();
 
     if (!validateForm()) {
-      showToast("Please fix the errors in the form", "error")
-      return
+      showToast("Please fix the errors in the form", "error");
+      return;
     }
 
     try {
-      setIsSubmitting(true)
+      setIsSubmitting(true);
 
       const billData = {
         ...formData,
+        deliveryDate: new Date(formData.deliveryDate).toISOString(), // Ensure ISO format
         lineItems: formData.lineItems.map((item) => ({
-          ...item,
+          itemName: item.itemName,
           quantity: Number(item.quantity),
           price: Number(item.price),
         })),
-      }
+        status: selectedBill ? formData.status || selectedBill.status : "Pending", // Preserve status for updates
+      };
 
+      console.log("Sending bill data:", billData); // Debug payload
+
+      let response;
       if (selectedBill && selectedBill._id) {
-        await updateBill(selectedBill._id, billData)
-        showToast("Bill updated successfully", "success")
+        response = await updateBill(selectedBill._id, billData);
+        showToast("Bill updated successfully", "success");
       } else {
-        await createBill(billData)
-        showToast("Bill created successfully", "success")
+        response = await createBill(billData);
+        showToast("Bill created successfully", "success");
       }
 
-      // Return to dashboard after successful submission
-      setCurrentView("dashboard")
+      // Reset form after creation
+      if (!selectedBill) {
+        setFormData({
+          name: "",
+          deliveryDate: "",
+          number: "",
+          customer: "",
+          lineItems: [{ itemName: "", quantity: "", price: "" }],
+        });
+      }
+
+      setCurrentView("dashboard");
+      return response; // Optional: use response if needed
     } catch (error) {
-      console.error("Error saving bill:", error)
-      showToast("Failed to save bill. Please try again.", "error")
+      console.error("Error saving bill:", error);
+      console.error("Error details:", error.response?.data); // Debug backend error
+      showToast(
+        error.response?.data?.error || "Failed to save bill. Please try again.",
+        "error"
+      );
     } finally {
-      setIsSubmitting(false)
+      setIsSubmitting(false);
     }
-  }
+  };
 
   const handleAIGenerate = async () => {
     try {
-      setIsProcessingAI(true)
+      setIsProcessingAI(true);
 
-      // Get AI input from either voice transcript or text input
-      const aiInput = transcript || (aiInputRef.current ? aiInputRef.current.value : "")
+      const aiInput = transcript || (aiInputRef.current ? aiInputRef.current.value : "");
 
       if (!aiInput.trim()) {
-        showToast("Please provide input for AI bill generation", "error")
-        setIsProcessingAI(false)
-        return
+        showToast("Please provide input for AI bill generation", "error");
+        return;
       }
 
-      // Call AI processing API
       const response = await fetch("/api/ai/generate-bill", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({ input: aiInput, language }),
-      })
+      });
 
       if (!response.ok) {
-        throw new Error("Failed to process AI request")
+        throw new Error("Failed to process AI request");
       }
 
-      const data = await response.json()
+      const data = await response.json();
 
-      // Update form with AI generated data
       setFormData({
         name: data.name || "",
         deliveryDate: data.deliveryDate || "",
         number: data.number || "",
         customer: data.customer || "",
         lineItems:
-          data.lineItems && data.lineItems.length > 0 ? data.lineItems : [{ itemName: "", quantity: "", price: "" }],
-      })
+          data.lineItems && data.lineItems.length > 0
+            ? data.lineItems.map((item) => ({
+                itemName: item.itemName,
+                quantity: String(item.quantity),
+                price: String(item.price),
+              }))
+            : [{ itemName: "", quantity: "", price: "" }],
+      });
 
-      showToast("Bill generated with AI successfully", "success")
-      resetTranscript()
-      if (aiInputRef.current) aiInputRef.current.value = ""
+      showToast("Bill generated with AI successfully", "success");
+      resetTranscript();
+      if (aiInputRef.current) aiInputRef.current.value = "";
     } catch (error) {
-      console.error("Error generating bill with AI:", error)
-      showToast("Failed to generate bill with AI. Please try again.", "error")
+      console.error("Error generating bill with AI:", error);
+      showToast("Failed to generate bill with AI. Please try again.", "error");
     } finally {
-      setIsProcessingAI(false)
+      setIsProcessingAI(false);
     }
-  }
+  };
 
   return (
-    <motion.div className="bill-creation-panel" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}>
+    <motion.div
+      className="bill-creation-panel"
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+    >
       <div className="panel-header">
         <h2>{selectedBill ? "Edit Bill" : "Create New Bill"}</h2>
         <motion.button
@@ -240,7 +279,11 @@ function BillCreationPanel({ setCurrentView, selectedBill }) {
         <div className="ai-controls">
           <div className="language-selector">
             <label>Language:</label>
-            <select value={language} onChange={(e) => setLanguage(e.target.value)} disabled={isListening}>
+            <select
+              value={language}
+              onChange={(e) => setLanguage(e.target.value)}
+              disabled={isListening}
+            >
               <option value="en-US">English</option>
               <option value="hi-IN">Hindi</option>
               <option value="gu-IN">Gujarati</option>
@@ -385,7 +428,9 @@ function BillCreationPanel({ setCurrentView, selectedBill }) {
               onChange={handleInputChange}
               className={errors.deliveryDate ? "error" : ""}
             />
-            {errors.deliveryDate && <span className="error-message">{errors.deliveryDate}</span>}
+            {errors.deliveryDate && (
+              <span className="error-message">{errors.deliveryDate}</span>
+            )}
           </div>
 
           <div className="form-group">
@@ -411,7 +456,9 @@ function BillCreationPanel({ setCurrentView, selectedBill }) {
               onChange={handleInputChange}
               className={errors.customer ? "error" : ""}
             />
-            {errors.customer && <span className="error-message">{errors.customer}</span>}
+            {errors.customer && (
+              <span className="error-message">{errors.customer}</span>
+            )}
           </div>
         </div>
 
@@ -440,11 +487,19 @@ function BillCreationPanel({ setCurrentView, selectedBill }) {
                     type="text"
                     placeholder="Item name"
                     value={item.itemName}
-                    onChange={(e) => handleLineItemChange(index, "itemName", e.target.value)}
-                    className={errors.lineItems && errors.lineItems[index]?.itemName ? "error" : ""}
+                    onChange={(e) =>
+                      handleLineItemChange(index, "itemName", e.target.value)
+                    }
+                    className={
+                      errors.lineItems && errors.lineItems[index]?.itemName
+                        ? "error"
+                        : ""
+                    }
                   />
                   {errors.lineItems && errors.lineItems[index]?.itemName && (
-                    <span className="error-message">{errors.lineItems[index].itemName}</span>
+                    <span className="error-message">
+                      {errors.lineItems[index].itemName}
+                    </span>
                   )}
                 </div>
 
@@ -453,13 +508,21 @@ function BillCreationPanel({ setCurrentView, selectedBill }) {
                     type="number"
                     placeholder="Qty"
                     value={item.quantity}
-                    onChange={(e) => handleLineItemChange(index, "quantity", e.target.value)}
-                    className={errors.lineItems && errors.lineItems[index]?.quantity ? "error" : ""}
+                    onChange={(e) =>
+                      handleLineItemChange(index, "quantity", e.target.value)
+                    }
+                    className={
+                      errors.lineItems && errors.lineItems[index]?.quantity
+                        ? "error"
+                        : ""
+                    }
                     min="1"
                     step="1"
                   />
                   {errors.lineItems && errors.lineItems[index]?.quantity && (
-                    <span className="error-message">{errors.lineItems[index].quantity}</span>
+                    <span className="error-message">
+                      {errors.lineItems[index].quantity}
+                    </span>
                   )}
                 </div>
 
@@ -468,13 +531,21 @@ function BillCreationPanel({ setCurrentView, selectedBill }) {
                     type="number"
                     placeholder="Price"
                     value={item.price}
-                    onChange={(e) => handleLineItemChange(index, "price", e.target.value)}
-                    className={errors.lineItems && errors.lineItems[index]?.price ? "error" : ""}
+                    onChange={(e) =>
+                      handleLineItemChange(index, "price", e.target.value)
+                    }
+                    className={
+                      errors.lineItems && errors.lineItems[index]?.price
+                        ? "error"
+                        : ""
+                    }
                     min="0.01"
                     step="0.01"
                   />
                   {errors.lineItems && errors.lineItems[index]?.price && (
-                    <span className="error-message">{errors.lineItems[index].price}</span>
+                    <span className="error-message">
+                      {errors.lineItems[index].price}
+                    </span>
                   )}
                 </div>
 
@@ -539,9 +610,9 @@ function BillCreationPanel({ setCurrentView, selectedBill }) {
               $
               {formData.lineItems
                 .reduce((total, item) => {
-                  const quantity = Number(item.quantity) || 0
-                  const price = Number(item.price) || 0
-                  return total + quantity * price
+                  const quantity = Number(item.quantity) || 0;
+                  const price = Number(item.price) || 0;
+                  return total + quantity * price;
                 }, 0)
                 .toFixed(2)}
             </span>
@@ -595,7 +666,7 @@ function BillCreationPanel({ setCurrentView, selectedBill }) {
         </div>
       </form>
     </motion.div>
-  )
+  );
 }
 
-export default BillCreationPanel
+export default BillCreationPanel;
