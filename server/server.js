@@ -4,6 +4,10 @@ const port = 3000;
 const connectiondb = require('./config/db.js');
 const router = require('./routes/Authroutes.js');
 const shopRoutes = require('./routes/Shoproutes.js');
+const dashboardRoutes = require('./routes/dashboardRoutes');
+const billRoutes = require('./routes/billRoutes');
+const aiRoutes = require('./routes/aiRoutes');
+const pdfRoutes = require('./routes/pdfRoutes');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
 app.use(cors({
@@ -17,6 +21,10 @@ app.use(cookieParser());
 
 app.use('/api/admin', router ); // Use the router with the correct path
 app.use('/api/shop', shopRoutes);
+app.use('/api/dashboard', dashboardRoutes);
+app.use('/api/bills', billRoutes);
+app.use('/api/ai', aiRoutes);
+app.use('/api', pdfRoutes); // Note: Adjusted to match POST /api/generate-pdf
 // const rateLimit = require('express-rate-limit');
 // const limiter = rateLimit({
 //     windowMs: 15 * 60 * 1000, // 15 minutes

@@ -5,6 +5,8 @@ import { Link } from "react-router-dom"
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion"
+import { useAuth } from "../context/AuthContext"
+
 import {
   Container,
   SignUpContainer,
@@ -37,7 +39,7 @@ export default function HeroSection() {
   const [number, setNumber] = useState("");//login number
   const Signupnavigate = useNavigate();//signup navigation
   const navigate = useNavigate();//login navigation
-
+  const { login } = useAuth()
 
 
 
@@ -55,7 +57,7 @@ export default function HeroSection() {
       );
 
       alert("Signup Successful!");
-
+      await login
       Signupnavigate("/shopcreate");
 
       console.log(res.data);
@@ -74,10 +76,10 @@ export default function HeroSection() {
       },
         { withCredentials: true });
 
-
+        await login
       alert("Login Successful!");
 
-      navigate("/shopselection");
+      navigate("/dashboard");
 
 
       console.log(res.data);
