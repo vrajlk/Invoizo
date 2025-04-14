@@ -1,4 +1,5 @@
 const mongoose = require("mongoose")
+const AutoIncrement = require('mongoose-sequence')(mongoose);
 
 const LineItemSchema = new mongoose.Schema({
   itemName: {
@@ -20,6 +21,9 @@ const BillSchema = new mongoose.Schema({
     type: Number,
     ref: "User",
     required: true,
+  },
+  billNumber: {
+   type:Number
   },
   name: {
     type: String,
@@ -55,5 +59,13 @@ const BillSchema = new mongoose.Schema({
     type: Date,
   },
 })
+
+// This will auto-increment billNumber per userId
+BillSchema.plugin(AutoIncrement, {
+  inc_field: 'billNumber',
+  id: 'bill_seq', // this is the internal counter name in DB
+  reference_fields: ['userId'], // makes counter per userId
+  start_seq: 1,
+});
 
 module.exports = mongoose.model("Bill", BillSchema)
