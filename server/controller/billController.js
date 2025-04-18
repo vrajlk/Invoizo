@@ -12,9 +12,32 @@ exports.getBills = async (req, res) => {
   }
 };
 
+exports.getBillsBynumber = async (req, res) => {
+  try {
+    const number = req.params.number;
+
+    if (!number) {
+      return res.status(400).json({ message: 'Mobile number is required' });
+    }
+
+    console.log('Searching for bills with number:', number); // Debug
+
+    const bills = await Bill.find({ number: String(number) }).sort({ createdAt: -1 });
+
+    if (bills.length === 0) {
+      return res.status(404).json({ message: 'No bills found for this number' });
+    }
+
+    res.json(bills);
+  } catch (error) {
+    console.error('Get bills error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+};
+
 exports.getBill = async (req, res) => {
   try {
-    const bill = await Bill.findOne({ _id: req.params.id, userId: req.user._id });
+    const bill = await Bill.findOne({ billNumber: req.params.id });
     if (!bill) return res.status(404).json({ message: 'Bill not found' });
     res.json(bill);
   } catch (error) {
@@ -122,7 +145,7 @@ exports.updateBill = async (req, res) => {
     const amount = lineItems.reduce((total, item) => total + Number(item.quantity) * Number(item.price), 0);
 
     const bill = await Bill.findOneAndUpdate(
-      { _id: req.params.id, userId: req.user._id },
+      { billNumber: req.params.id, userId: req.user._id },
       { name, number, customer, deliveryDate, amount, lineItems, updatedAt: new Date() },
       { new: true },
     );
@@ -136,7 +159,7 @@ exports.updateBill = async (req, res) => {
 
 exports.deleteBill = async (req, res) => {
   try {
-    const bill = await Bill.findOneAndDelete({ _id: req.params.id, userId: req.user._id });
+    const bill = await Bill.findOneAndDelete({ billNumber: req.params.id, userId: req.user._id });
     if (!bill) return res.status(404).json({ message: 'Bill not found' });
     await Order.findOneAndDelete({ billId: bill._id, userId: req.user._id });
     res.json({ message: 'Bill deleted successfully' });

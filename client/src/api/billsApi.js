@@ -21,6 +21,17 @@ export async function fetchBills() {
   }
 }
 
+export async function fetchBillsBYnumber(number) {
+  try {
+    const response = await api.get(`/search-by-number/${number}`);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching bills:', error);
+    throw new Error(error.response?.data?.message || 'Failed to fetch bills');
+  }
+}
+
+
 export async function fetchBill(id) {
   try {
     const response = await api.get(`/${id}`);

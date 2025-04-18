@@ -4,6 +4,7 @@ const billController = require('../controller/billController');
 const authMiddleware = require('../middleware/Check.auth');
 
 router.get('/', authMiddleware, billController.getBills);
+router.get('/search-by-number/:number',authMiddleware, billController.getBillsBynumber);
 router.get('/:id',authMiddleware, billController.getBill);
 router.post('/',authMiddleware, billController.createBill);
 router.put('/:id',authMiddleware, billController.updateBill);
