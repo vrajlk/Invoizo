@@ -9,6 +9,7 @@ import { SunIcon } from "./icons/SunIcon"
 import { MenuIcon } from "./icons/MenuIcon"
 import { motion } from "framer-motion"
 import { useAuth } from "../../context/AuthContext"
+import BillSearch from "./BillSearch"
 
 function Header({ onToggleSidebar, toggleTheme, theme }) {
   const { user, logout } = useAuth()
@@ -28,8 +29,7 @@ function Header({ onToggleSidebar, toggleTheme, theme }) {
           <MenuIcon />
         </button>
         <div className="search-container">
-          <SearchIcon className="search-icon" />
-          <input type="text" className="search-input" placeholder="Search..." />
+         <BillSearch/>
         </div>
       </div>
       <div className="header-right">
