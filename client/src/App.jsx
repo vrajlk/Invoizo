@@ -1,5 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useState } from 'react';
 import Signup from './pages/signup';
 import Login from './pages/Login';
 import About from './pages/About';
@@ -12,72 +13,116 @@ import Header from "./components/Dashboardcomponents/Header"
 import Dashboard from "./components/Dashboardcomponents/Dashboard"
 import BillCreationPanel from "./components/Dashboardcomponents/BillCreationPanel"
 import AppContainer from './pages/Dashboard';
+import SearchResultPanel from './components/Dashboardcomponents/SearchResultPanel';
+// import { useAuth } from './context/AuthContext';
+
 
 
 
 import './App.css';
 
-function AppContent() {
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
-  const [currentView, setCurrentView] = useState("dashboard")
-  const [selectedBill, setSelectedBill] = useState(null)
-  const { isAuthenticated, loading } = useAuth()
+// function AppContent() {
+//   const [sidebarCollapsed, setSidebarCollapsed] = useState(false)
+//   const [currentView, setCurrentView] = useState("dashboard")
+//   const [selectedBill, setSelectedBill] = useState(null)
+//   const { isAuthenticated, loading } = useAuth()
+//   const [searchResultData, setSearchResultData] = useState([]);
+//   const [searchType, setSearchType] = useState("mobile");
+//   const [searchTerm, setSearchTerm] = useState("");
 
-  if (loading) {
-    return (
-      <div className="loading-screen">
-        <motion.div
-          className="loader"
-          animate={{ rotate: 360 }}
-          transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
-        />
-        <p>Loading Invoizo...</p>
-      </div>
-    )
-  }
 
-  if (!isAuthenticated) {
-    return <LoginPage />
-  }
 
-  return (
-    <div className="app-container">
-      <Sidebar collapsed={sidebarCollapsed} setCurrentView={setCurrentView} />
-      <div className="main-content">
-        <Header onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)} currentView={currentView} />
-        <AnimatePresence mode="wait">
-          {currentView === "dashboard" && (
-            <motion.div
-              key="dashboard"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-              className="dashboard-content"
-            >
-              <Dashboard setCurrentView={setCurrentView} setSelectedBill={setSelectedBill} />
-            </motion.div>
-          )}
-          {currentView === "createBill" && (
-            <motion.div
-              key="createBill"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              transition={{ duration: 0.3 }}
-              className="dashboard-content"
-            >
-              <BillCreationPanel setCurrentView={setCurrentView} selectedBill={selectedBill} />
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </div>
-  )
-}
+//   if (loading) {
+//     return (
+//       <div className="loading-screen">
+//         <motion.div
+//           className="loader"
+//           animate={{ rotate: 360 }}
+//           transition={{ duration: 1, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+//         />
+//         <p>Loading Invoizo...</p>
+//       </div>
+//     )
+//   }
+
+//   if (!isAuthenticated) {
+//     return <LoginPage />
+//   }
+
+//   return (
+//     <div className="app-container">
+//       <Sidebar collapsed={sidebarCollapsed} setCurrentView={setCurrentView} />
+//       <div className="main-content">
+//         <Header
+//           onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)}
+//           currentView={currentView}
+//           setCurrentView={setCurrentView}
+//           setSearchResultData={setSearchResultData}
+//           searchType={searchType}
+//           setSearchType={setSearchType}
+//           searchTerm={searchTerm}
+//           setSearchTerm={setSearchTerm}
+//         />
+
+//         <AnimatePresence mode="wait">
+//           {currentView === "dashboard" && (
+//             <motion.div
+//               key="dashboard"
+//               initial={{ opacity: 0, y: 20 }}
+//               animate={{ opacity: 1, y: 0 }}
+//               exit={{ opacity: 0, y: -20 }}
+//               transition={{ duration: 0.3 }}
+//               className="dashboard-content"
+//             >
+//               <Dashboard
+//                 setCurrentView={setCurrentView}
+//                 setSelectedBill={setSelectedBill}
+//                 // setSearchResultData={setSearchResultData}
+//                 // searchType={searchType}
+//                 // setSearchType={setSearchType}
+//                 // searchTerm={searchTerm}
+//                 // setSearchTerm={setSearchTerm}
+//               />
+//             </motion.div>
+//           )}
+
+//           {currentView === "createBill" && (
+//             <motion.div
+//               key="createBill"
+//               initial={{ opacity: 0, y: 20 }}
+//               animate={{ opacity: 1, y: 0 }}
+//               exit={{ opacity: 0, y: -20 }}
+//               transition={{ duration: 0.3 }}
+//               className="dashboard-content"
+//             >
+//               <BillCreationPanel setCurrentView={setCurrentView} selectedBill={selectedBill} />
+//             </motion.div>
+//           )}
+//           {currentView === "searchResult" && (
+//             <motion.div
+//               key="searchResult"
+//               initial={{ opacity: 0, y: 20 }}
+//               animate={{ opacity: 1, y: 0 }}
+//               exit={{ opacity: 0, y: -20 }}
+//               transition={{ duration: 0.3 }}
+//               className="dashboard-content"
+//             >
+//               <SearchResultPanel
+//                 searchResultData={searchResultData}
+//                 searchType={searchType}
+//                 searchTerm={searchTerm}
+//               />
+//             </motion.div>
+//           )}
+
+//         </AnimatePresence>
+//       </div>
+//     </div>
+//   )
+// }
 
 const App = () => {
-  
+
   return (
     <Router>
       <div className="min-h-screen w-full inset-0 bg-white dark:bg-gray-900 transition-colors duration-300">
@@ -98,4 +143,5 @@ const App = () => {
   );
 };
 
+// export const AppContainer = AppContent;
 export default App;

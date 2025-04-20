@@ -11,7 +11,18 @@ import { motion } from "framer-motion"
 import { useAuth } from "../../context/AuthContext"
 import BillSearch from "./BillSearch"
 
-function Header({ onToggleSidebar, toggleTheme, theme }) {
+function Header({
+  onToggleSidebar,
+  toggleTheme,
+  theme,
+  setCurrentView,
+  setSearchResultData,
+  searchType,
+  setSearchType,
+  searchTerm,
+  setSearchTerm,
+}) {
+
   const { user, logout } = useAuth()
 
   const handleLogout = async () => {
@@ -29,7 +40,14 @@ function Header({ onToggleSidebar, toggleTheme, theme }) {
           <MenuIcon />
         </button>
         <div className="search-container">
-         <BillSearch/>
+          <BillSearch
+            setCurrentView={setCurrentView}
+            setSearchResultData={setSearchResultData}
+            searchType={searchType}
+            setSearchType={setSearchType}
+            searchTerm={searchTerm}
+            setSearchTerm={setSearchTerm}
+          />
         </div>
       </div>
       <div className="header-right">

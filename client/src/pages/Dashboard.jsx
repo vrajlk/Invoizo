@@ -10,7 +10,7 @@ import LoadingSpinner from "../components/Dashboardcomponents/LoadingSpinner"
 import { useToast } from "../hooks/useToast"
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-
+import SearchResultPanel from "../components/Dashboardcomponents/SearchResultPanel"
 
 
 function AppContainer() {
@@ -20,6 +20,9 @@ function AppContainer() {
   const { loading } = useAuth()
   const { theme, toggleTheme } = useTheme()
   const { ToastContainer } = useToast()
+  const [searchResultData, setSearchResultData] = useState([]);
+  const [searchType, setSearchType] = useState("mobile");
+  const [searchTerm, setSearchTerm] = useState("");
 
   // Reset to dashboard when logging in
   const [isAuthenticated, setIsAuthenticated] = useState(null);
@@ -70,6 +73,13 @@ function AppContainer() {
           onToggleSidebar={() => setSidebarCollapsed(!sidebarCollapsed)}
           toggleTheme={toggleTheme}
           theme={theme}
+          setSearchResultData={setSearchResultData}
+          searchType={searchType}
+          setSearchType={setSearchType}
+          searchTerm={searchTerm}
+          setSearchTerm={setSearchTerm}
+          currentView={currentView}
+          setCurrentView={setCurrentView}
         />
         <div className="dashboard-content">
           <AnimatePresence mode="wait">
@@ -84,6 +94,22 @@ function AppContainer() {
                 <Dashboard setCurrentView={setCurrentView} setSelectedBill={setSelectedBill} />
               </motion.div>
             )}
+                      {currentView === "searchResult" && (
+            <motion.div
+              key="searchResult"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="dashboard-content"
+            >
+              <SearchResultPanel
+                searchResultData={searchResultData}
+                searchType={searchType}
+                searchTerm={searchTerm}
+              />
+            </motion.div>
+          )}
 
             {currentView === "createBill" && (
               <motion.div
