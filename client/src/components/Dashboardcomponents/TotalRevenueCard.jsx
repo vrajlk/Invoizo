@@ -33,7 +33,16 @@ function TotalRevenueCard({ data }) {
       <div className="stat-summary-header">
         <div className="stat-summary-info">
           <div className="stat-summary-title-row">
-            <div className="stat-summary-title">${data.amount.toLocaleString()}</div>
+            {console.log("TotalRevenueCard data:", data)
+            }
+            {data && data.amount !== undefined ? (
+              <div className="stat-summary-title">
+                ₹{Number(data.amount).toLocaleString()}
+              </div>
+            ) : (
+              <div className="stat-summary-title">₹0</div> // fallback if no data
+            )}
+
           </div>
           <div className="stat-summary-subtitle">Total Revenue Today</div>
         </div>

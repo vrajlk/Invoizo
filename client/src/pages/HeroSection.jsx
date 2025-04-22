@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect, lazy, Suspense } from "react"
 import { Button } from "../components/hero.components/ui/button"
 import { Sun, Moon } from "lucide-react"
@@ -55,7 +56,7 @@ export default function HeroSection() {
       },
         { withCredentials: true }
       );
-
+      localStorage.setItem("adminId", res.data.adminId);
       alert("Signup Successful!");
       await login
       Signupnavigate("/shopcreate");
@@ -75,12 +76,12 @@ export default function HeroSection() {
         password,
       },
         { withCredentials: true });
+        localStorage.setItem("adminId", res.data.adminId);
 
         await login
       alert("Login Successful!");
 
       navigate("/dashboard");
-
 
       console.log(res.data);
       // Store JWT Token (Optional)
@@ -144,8 +145,8 @@ export default function HeroSection() {
 
         {/* Content Overlay */}
         <div className="relative z-10 flex min-h-screen flex-col">
-          <header className="container mx-auto flex items-center justify-between p-4">
-            <div className="text-2xl font-bold text-slate-900 dark:text-white">Invoizo</div>
+          <header className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between py-4">
+            <div className="text-2xl font-bold text-slate-900 dark:text-white mb-2 sm:mb-0">Invoizo</div>
             <div className="flex items-center">
               <Button
                 variant="ghost"
@@ -158,7 +159,7 @@ export default function HeroSection() {
             </div>
           </header>
 
-          <main className="container mx-auto flex flex-1 items-center justify-center px-4">
+          <main className="container mx-auto px-4 sm:px-6 lg:px-8 flex flex-1 items-center justify-center">
             <div className="relative z-10 max-w-3xl space-y-8 backdrop-blur-sm bg-white/70 dark:bg-slate-900/70 p-8 rounded-2xl shadow-lg text-center">
               <h1 className="text-4xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-5xl md:text-6xl">
                 Manual Billing Slowing You Down? Let’s Fix That!
@@ -167,14 +168,11 @@ export default function HeroSection() {
                 Upgrade to a smarter billing system. Save time, eliminate errors, and manage invoices effortlessly—all in one place!
               </p>
 
-              <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
-                {/* <Link to="/signup"> */}
+              <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Button onClick={openModal} className="group relative h-12 overflow-hidden rounded-lg bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 px-8 py-3 text-lg font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-lg">
                   <span className="relative z-10">Sign Up</span>
                   <span className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-indigo-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
-
                 </Button>
-                {/* </Link> */}
                 <Link to="/login">
                   <Button
                     variant="outline"
@@ -199,16 +197,11 @@ export default function HeroSection() {
             className="fixed inset-0 z-50 flex items-center justify-center"
           >
             <div className="font-[Nunito] text-black/70 relative z-30">
-
-
-              {/* Modal */}
               <div
-                className={`fixed left-0 bottom-0 w-full flex flex-col items-center justify-center bg-blue-200 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-10 border border-gray-100" ${isModalOpen ? "h-full " : "h-[0.1px] "
-                  }`}
+                className={`fixed left-0 bottom-0 w-full flex flex-col items-center justify-center bg-blue-200 rounded-md bg-clip-padding backdrop-filter backdrop-blur-md bg-opacity-10 border border-gray-100 ${isModalOpen ? "h-full" : "h-[0.1px]"}`}
               >
-                {/* Modal Container */}
                 <div
-                  className={`relative flex w-full rounded-lg overflow-hidden  bg-slate-50 dark:bg-white ${darkMode ? "dark" : ""} shadow-xl ${isModalOpen
+                  className={`relative flex w-full rounded-lg overflow-hidden bg-slate-50 dark:bg-white ${darkMode ? "dark" : ""} shadow-xl ${isModalOpen
                     ? "opacity-100 pointer-events-auto translate-y-0 scale-100"
                     : "opacity-0 pointer-events-none translate-y-24 scale-95"
                     }`}
@@ -219,10 +212,7 @@ export default function HeroSection() {
                   onMouseEnter={() => setIsHovered(true)}
                   onMouseLeave={() => setIsHovered(false)}
                 >
-
-                  {/* Login Component from First Modal */}
                   <Container>
-                    {/* Sign Up */}
                     <SignUpContainer signingIn={signIn}>
                       <Form>
                         <Title isOverlay={false}>Create Account</Title>
@@ -232,8 +222,6 @@ export default function HeroSection() {
                           placeholder="Username"
                           required
                           onChange={(e) => setUsername(e.target.value)} />
-
-
                         <Input type="tel"
                           id="number"
                           name="number"
@@ -243,21 +231,16 @@ export default function HeroSection() {
                           placeholder="Phonenumber"
                           required
                           onChange={(e) => setSignupNumber(e.target.value)} />
-
-
                         <Input type="password"
                           id="password"
                           name="password"
                           placeholder="Password"
                           required
                           onChange={(e) => setSignupPassword(e.target.value)} />
-
-
                         <NewButton onClick={handleSignup} className="m-3">Sign Up</NewButton>
                       </Form>
                     </SignUpContainer>
 
-                    {/* Sign In */}
                     <SignInContainer signingIn={signIn}>
                       <Form>
                         <Title isOverlay={false}>Log In</Title>
@@ -270,20 +253,17 @@ export default function HeroSection() {
                           placeholder="Phonenumber"
                           required
                           onChange={(e) => setNumber(e.target.value)} />
-
                         <Input type="password"
                           id="password"
                           name="password"
                           placeholder="Password"
                           required
                           onChange={(e) => setPassword(e.target.value)} />
-
                         <Anchor href="#">Forgot your password?</Anchor>
                         <NewButton onClick={handleLogin}>Log In</NewButton>
                       </Form>
                     </SignInContainer>
 
-                    {/* Overlay */}
                     <OverlayContainer signingIn={signIn}>
                       <Overlay signingIn={signIn}>
                         <LeftOverlayPanel signingIn={signIn}>
@@ -304,10 +284,7 @@ export default function HeroSection() {
                       </Overlay>
                     </OverlayContainer>
                   </Container>
-
-
                 </div>
-                {/* Floating Close Button */}
                 {isModalOpen && (
                   <button
                     className="absolute top-[30%] right-[33.7%] w-7 h-10 z-50 cursor-pointer transition-all duration-500 ease-in-out"
@@ -325,7 +302,6 @@ export default function HeroSection() {
                     </svg>
                   </button>
                 )}
-
               </div>
             </div>
           </motion.div>
@@ -334,5 +310,3 @@ export default function HeroSection() {
     </>
   )
 }
-// }
-// }
