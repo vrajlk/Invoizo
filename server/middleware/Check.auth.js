@@ -12,15 +12,15 @@ const checkAuth = (req, res, next) => {
     }
 
     const decoded = jwt.verify(token, JWT_SECRET);
-    console.log('checkAuth: Decoded:', decoded);
 
     req.user = {
       _id: decoded._id || decoded.adminId, // Prefer _id, fallback to adminId
       number: decoded.number,
       isAdmin: decoded.isAdmin,
       adminId: decoded.adminId,
+      userId: decoded.userId, // Add userId here
     };
-    console.log('checkAuth: Set req.user:', req.user);
+   
 
     return next();
   } catch (error) {

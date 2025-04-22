@@ -9,7 +9,8 @@ const generateToken = (User) => {
       password: User.password,
       isAdmin: User.isAdmin,
       adminId: User.adminId,
-      _id: User.adminId 
+      _id: User.adminId,
+      userId:User._id
     },
     JWT_SECRET,
     { expiresIn: '24h' }

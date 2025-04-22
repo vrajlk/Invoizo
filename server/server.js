@@ -10,6 +10,11 @@ const aiRoutes = require('./routes/aiRoutes');
 const pdfRoutes = require('./routes/pdfRoutes');
 const cors = require('cors');
 const cookieParser = require('cookie-parser');
+const trafficRoutes = require("./routes/trafficRoutes");
+const customerRoutes = require("./routes/customerRoutes.js")
+const RevenueRoutes = require("./routes/getRevenueData.js");
+const getPendingBillsRoute = require("./routes/getPendingBillsRoute.js");
+const getTotalRevenue = require('./routes/getTotalRevenueRoute.js');
 app.use(cors({
     origin: 'http://localhost:5173',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
@@ -25,6 +30,12 @@ app.use('/api/dashboard', dashboardRoutes);
 app.use('/api/bills', billRoutes);
 app.use('/api/ai', aiRoutes);
 app.use('/api', pdfRoutes); // Note: Adjusted to match POST /api/generate-pdf
+app.use("/api", trafficRoutes); // Now route is /api/traffic-data
+app.use("/api",customerRoutes)
+app.use("/api",RevenueRoutes)
+app.use("/api",getPendingBillsRoute)
+app.use("/api",getTotalRevenue)
+
 // const rateLimit = require('express-rate-limit');
 // const limiter = rateLimit({
 //     windowMs: 15 * 60 * 1000, // 15 minutes

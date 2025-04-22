@@ -45,6 +45,10 @@ const BillSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  totalAmount: {
+    type: Number,
+    required: true,
+  },
   lineItems: [LineItemSchema],
   status: {
     type: String,
@@ -58,7 +62,8 @@ const BillSchema = new mongoose.Schema({
   updatedAt: {
     type: Date,
   },
-})
+},
+{ timestamps: true });
 
 // This will auto-increment billNumber per userId
 BillSchema.plugin(AutoIncrement, {

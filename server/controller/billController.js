@@ -51,7 +51,7 @@ exports.createBill = async (req, res) => {
     console.log('createBill: Starting with body:', req.body);
     console.log('createBill: User:', req.user);
 
-    const { name, deliveryDate, number, customer, lineItems } = req.body;
+    const { name, deliveryDate, number, customer, lineItems,totalAmount } = req.body;
 
     if (!req.user || !req.user._id) {
       console.log('createBill: No user ID');
@@ -93,6 +93,7 @@ exports.createBill = async (req, res) => {
       lineItems,
       status: 'Pending',
       createdAt: new Date(),
+      totalAmount
     });
 
     console.log('createBill: Saving bill:', bill);
