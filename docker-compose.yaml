@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL
+    env_file:
+      - ./client/.env
+    ports:
+      - "5173:80"
+    depends_on:
+      - server
+    networks:
+      - invoizo-network
+
+  server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    env_file:
+      - ./server/.env
+    depends_on:
+      - mongo
+    networks:
+      - invoizo-network
+
+  mongo:
+    image: mongo:latest
+    volumes:
+      - invoizo-db:/data/db
+    networks:
+      - invoizo-network
+
+networks:
+  invoizo-network:
+    driver: bridge
+
+volumes:
+  invoizo-db:
