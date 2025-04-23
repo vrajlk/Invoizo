@@ -30,7 +30,7 @@ function AppContainer() {
   useEffect(() => {
     const Dashauth = async () => {
       try {
-        const response = await axios.get("http://localhost:3000/api/admin/dashauth", {
+        const response = await axios.get("http://65.2.129.154:3000/api/admin/dashauth", {
           withCredentials: true,
         });
         setIsAuthenticated(response.data.authenticated);

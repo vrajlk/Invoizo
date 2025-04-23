@@ -16,7 +16,7 @@ const RevenueRoutes = require("./routes/getRevenueData.js");
 const getPendingBillsRoute = require("./routes/getPendingBillsRoute.js");
 const getTotalRevenue = require('./routes/getTotalRevenueRoute.js');
 app.use(cors({
-    origin: 'http://localhost:5173',
+    origin: 'http://65.2.129.154:5173',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
 }));

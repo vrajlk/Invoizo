@@ -49,7 +49,7 @@ export default function HeroSection() {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:3000/api/admin/signup", {
+      const res = await axios.post("http://65.2.129.154:3000/api/admin/signup", {
         username,
         number: Signupnumber,
         password: Signuppassword,
@@ -71,7 +71,7 @@ export default function HeroSection() {
     e.preventDefault();
 
     try {
-      const res = await axios.post("http://localhost:3000/api/admin/login", {
+      const res = await axios.post("http://65.2.129.154:3000/api/admin/login", {
         number,
         password,
       },

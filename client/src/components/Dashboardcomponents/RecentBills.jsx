@@ -14,7 +14,7 @@ function RecentBills({ setCurrentView, setSelectedBill }) {
   // Function to fetch and process bills
   const fetchBills = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/bills", {
+      const response = await fetch("http://65.2.129.154:3000/api/bills", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",

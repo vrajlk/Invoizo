@@ -8,7 +8,7 @@ const OrderCardWrapper = () => {
 
   const fetchOrderData = async () => {
     try {
-      const response = await fetch("http://localhost:3000/api/bills", {
+      const response = await fetch("http://65.2.129.154:3000/api/bills", {
         credentials: "include", // if using cookies
       });
 
