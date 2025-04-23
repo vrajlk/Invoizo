@@ -7,7 +7,9 @@ COPY . .
 ARG VITE_API_URL
 ENV VITE_API_URL=$VITE_API_URL
 
+ENV NODE_OPTIONS=--max-old-space-size=4096
 RUN npm run build
+ENV NODE_OPTIONS=
 
 FROM nginx:alpine
 COPY --from=builder /app/dist /usr/share/nginx/html
