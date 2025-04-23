@@ -27,7 +27,7 @@ const registerAdmin = async (req, res) => {
             res.cookie("token", token, {
                 httpOnly: true,
                 secure: process.env.NODE_ENV === "production",
-                sameSite: "Strict"
+                sameSite: "None"
             });
             return res.status(200).json({message: "Admin is successfully registered on web", admin: newAdmin });
         } else {
