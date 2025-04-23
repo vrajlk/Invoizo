@@ -25,7 +25,7 @@ const registerAdmin = async (req, res) => {
         if (isWeb) {
             // For Web: Store token in an HTTP-only cookie
             res.cookie("token", token, {
-                httpOnly: true,
+                httpOnly: false,
                 secure: process.env.NODE_ENV === "production",
                 sameSite: "None"
             });
