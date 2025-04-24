@@ -170,10 +170,10 @@ export default function HeroSection() {
 
               <div className="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4">
                 <Button onClick={openModal} className="group relative h-12 overflow-hidden rounded-lg bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 px-8 py-3 text-lg font-medium text-white transition-all duration-300 hover:scale-105 hover:shadow-lg">
-                  <span className="relative z-10">Sign Up</span>
+                  <span className="relative z-10">Login</span>
                   <span className="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 dark:from-blue-500 dark:to-indigo-500 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
                 </Button>
-                <Link to="/login">
+                <Link to="/about">
                   <Button
                     variant="outline"
                     className="group relative h-12 overflow-hidden rounded-lg border-2 border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-8 py-3 text-lg font-medium text-slate-800 dark:text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-slate-100 dark:hover:bg-slate-700"
