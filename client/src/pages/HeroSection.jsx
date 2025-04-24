@@ -178,7 +178,7 @@ export default function HeroSection() {
                     variant="outline"
                     className="group relative h-12 overflow-hidden rounded-lg border-2 border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-800 px-8 py-3 text-lg font-medium text-slate-800 dark:text-white transition-all duration-300 hover:scale-105 hover:shadow-lg hover:bg-slate-100 dark:hover:bg-slate-700"
                   >
-                    <span className="relative z-10">Login</span>
+                    <span className="relative z-10">About Us</span>
                     <span className="absolute inset-0 bg-gradient-to-r from-slate-100 to-slate-200 dark:from-slate-700 dark:to-slate-800 opacity-0 transition-opacity duration-300 group-hover:opacity-100"></span>
                   </Button>
                 </Link>
