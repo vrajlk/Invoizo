@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import * as THREE from 'three';
+import { Link } from 'react-router-dom';
+import { Scene, PerspectiveCamera, WebGLRenderer, TorusKnotGeometry, MeshBasicMaterial, Mesh } from 'three';
 
 const AboutUs = () => {
   const [isDarkMode, setIsDarkMode] = useState(true);
@@ -31,14 +32,14 @@ const AboutUs = () => {
   // Three.js animation for 3D effect
   useEffect(() => {
     const canvas = document.getElementById('threeCanvas');
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, canvas.width / canvas.height, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ canvas, alpha: true });
+    const scene = new Scene();
+    const camera = new PerspectiveCamera(75, canvas.width / canvas.height, 0.1, 1000);
+    const renderer = new WebGLRenderer({ canvas, alpha: true });
     renderer.setSize(300, 300);
 
-    const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
-    const material = new THREE.MeshBasicMaterial({ color: 0x2563eb, wireframe: true });
-    const torusKnot = new THREE.Mesh(geometry, material);
+    const geometry = new TorusKnotGeometry(10, 3, 100, 16);
+    const material = new MeshBasicMaterial({ color: 0x2563eb, wireframe: true });
+    const torusKnot = new Mesh(geometry, material);
     scene.add(torusKnot);
 
     camera.position.z = 30;
@@ -109,7 +110,7 @@ const AboutUs = () => {
       <div
         id="mission"
         data-scroll-section
-        className={`py-16 px-4 ${visibleSections.includes('features') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'} transition-all duration-700 ease-out`}
+        className={`py-16 px-4 ${visibleSections.includes('mission') ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'} transition-all duration-700 ease-out`}
       >
         <div className="max-w-4xl mx-auto text-center">
           <h3 className="text-3xl font-bold mb-6">Our Mission</h3>
@@ -120,15 +121,13 @@ const AboutUs = () => {
       </div>
 
       {/* Call to Action */}
-      <Link to="/">
-       
       <div className="py-16 text-center">
-        
-         <button className="relative inline-block px-8 py-4 rounded-lg bg-blue-600 text-white text-lg font-semibold transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:bg-blue-700 [transform-style:preserve-3d]">
-           Back to Home
-         </button>
-        </div>
-      </Link>
+        <Link to="/">
+          <button className="relative inline-block px-8 py-4 rounded-lg bg-blue-600 text-white text-lg font-semibold transform transition-all duration-300 hover:-translate-y-2 hover:shadow-xl hover:bg-blue-700 [transform-style:preserve-3d]">
+            Back to Home
+          </button>
+        </Link>
+      </div>
     </div>
   );
 };
