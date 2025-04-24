@@ -59,7 +59,9 @@ export default function HeroSection() {
       localStorage.setItem("adminId", res.data.adminId);
       alert("Signup Successful!");
       await login
-      Signupnavigate("/shopcreate");
+      Signupnavigate("/dashboard");
+      // Store JWT Token (Optional)
+      localStorage.setItem("token", res.data.token);
 
       console.log(res.data);
     } catch (error) {
