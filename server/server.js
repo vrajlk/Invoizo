@@ -19,7 +19,7 @@ const getTotalRevenue = require('./routes/getTotalRevenueRoute.js');
 app.set("trust proxy", 1);
 
 app.use(cors({
-    origin: 'http://65.2.129.154:5173',
+    origin: 'http://65.2.129.154',
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
     credentials: true,
 }));
