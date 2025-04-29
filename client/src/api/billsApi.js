@@ -46,7 +46,8 @@ export async function fetchBill(id) {
 export async function createBill(billData) {
   try {
     console.log('Sending bill data:', billData);
-    const response = await api.post('/', billData);
+    console.log('Request URL:', `${api.defaults.baseURL}/bills`);
+    const response = await api.post('/bills', billData);
     return response.data;
   } catch (error) {
     console.error('Error creating bill:', error);
@@ -54,7 +55,6 @@ export async function createBill(billData) {
     throw new Error(error.response?.data?.message || 'Failed to create bill');
   }
 }
-
 export async function updateBill(id, billData) {
   try {
     console.log('Updating bill:', id, billData);
