@@ -9,7 +9,7 @@ const RevenueChartWrapper = () => {
   useEffect(() => {
     const fetchChartData = async () => {
       try {
-        const res = await fetch("http://65.2.129.154:3000/api/revenue-data"); // 🔁 Change this to your actual route
+        const res = await fetch("localhost:3000/api/revenue-data"); // 🔁 Change this to your actual route
         const data = await res.json();
         setChartData(data);
       } catch (error) {
