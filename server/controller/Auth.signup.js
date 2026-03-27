@@ -26,17 +26,19 @@ const registerAdmin = async (req, res) => {
             // For Web: Store token in an HTTP-only cookie
             res.cookie("token", token, {
                 httpOnly: false,
-                secure: false,
+                secure: true,
                 // secure: process.env.NODE_ENV === "production",
-                sameSite: "None"
+                sameSite: "None",
+                // domain: 'localhost',
+                // path: '/'
             });
-            return res.status(200).json({message: "Admin is successfully registered on web", admin: newAdmin });
+            return res.status(200).json({message: "Admin is successfully registered on web", admin: newAdmin, token: token});
         } else {
             // For Mobile: Send token in JSON response
             return res.status(200).json({
                 message: "Admin is successfully registered on mobile",
                 admin: newAdmin,
-                token
+                token : token
             });
         }
   
