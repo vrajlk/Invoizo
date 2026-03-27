@@ -17,7 +17,7 @@ const Signup = () => {
     e.preventDefault();
 
     try {
-      const res = await axios.post("localhost:3000/api/admin/signup", {
+      const res = await axios.post("http://localhost:3000/api/admin/signup", {
         username,
         number,
         password,

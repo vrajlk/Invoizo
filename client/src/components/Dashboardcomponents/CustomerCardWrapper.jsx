@@ -9,7 +9,7 @@ export default function CustomerCardWrapper() {
 
   const fetchData = async () => {
     try {
-        const res = await fetch(`localhost:3000/api/unique-customers?period=${activeTab},{ cache: "no-store" }`);
+        const res = await fetch(`http://localhost:3000/api/unique-customers?period=${activeTab},{ cache: "no-store" }`);
         const result = await res.json();
       setData({ ...result, activeTab });
     } catch (err) {
