@@ -146,7 +146,8 @@ exports.updateBill = async (req, res) => {
     const amount = lineItems.reduce((total, item) => total + Number(item.quantity) * Number(item.price), 0);
 
     const bill = await Bill.findOneAndUpdate(
-      { billNumber: req.params.id, userId: req.user._id },
+      // { billNumber: req.params.id, userId: req.user._id },
+      { _id: req.params.id, userId: req.user._id },
       { name, number, customer, deliveryDate, amount, lineItems, updatedAt: new Date() },
       { new: true },
     );
