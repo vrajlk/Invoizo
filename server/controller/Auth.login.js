@@ -27,11 +27,14 @@ const loginAdmin = async (req, res) => {
             // For Web: Store token in an HTTP-only cookie
             res.cookie("token", token, {
                 httpOnly: false,
-                secure: false, 
+                secure: true, 
                 // secure: process.env.NODE_ENV === "production",
                 sameSite: "None"
 
             });
+            
+            console.log('Cookie set:', token)
+
             return res.status(200).json({
                 message: "Admin logged in successfully on web", 
                 adminId: AdminExists.adminId,

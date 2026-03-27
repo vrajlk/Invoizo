@@ -4,7 +4,11 @@ const { JWT_SECRET } = require("../utils/generatetoken");
 const Dashauth = (req, res,) => {
     try {
         const token = req.cookies.token; // Get token from cookies
-    
+        console.log('Raw Cookie Header:', req.headers.cookie);
+        console.log('Cookies received:', req.cookies.token);
+        console.log('Parsed Cookies:', req.cookies);
+        console.log('normal cookies:', req.cookies);
+        console.log('Token from cookies:', token);
         if (!token) {
           return res.json({ authenticated: false, isAdmin: false });
         }
