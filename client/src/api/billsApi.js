@@ -47,7 +47,7 @@ export async function createBill(billData) {
   try {
     console.log('Sending bill data:', billData);
     console.log('Request URL:', `${api.defaults.baseURL}/bills`);
-    const response = await api.post('/bills', billData);
+    const response = await api.post('/', billData);
     return response.data;
   } catch (error) {
     console.error('Error creating bill:', error);
