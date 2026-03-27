@@ -599,7 +599,7 @@ function BillCreationPanel({ setCurrentView, selectedBill }) {
           <div className="bill-total flex justify-between items-center">
             <span className="text-lg font-medium">Total Amount:</span>
             <span className="total-amount text-lg font-semibold">
-              ${formData.lineItems
+            ₹{formData.lineItems
                 .reduce((total, item) => {
                   const quantity = Number(item.quantity) || 0;
                   const price = Number(item.price) || 0;

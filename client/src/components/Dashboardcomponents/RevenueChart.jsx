@@ -95,7 +95,7 @@ function RevenueChart({ data }) {
           <p className="text-sm text-gray-500 dark:text-gray-400">{data.period}</p>
         </div>
         <div className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-gray-100">
-          ${data.total.toLocaleString()}
+        ₹{data.total.toLocaleString()}
         </div>
       </div>
       <div className="flex space-x-2 mb-4">
