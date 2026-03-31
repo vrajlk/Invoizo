@@ -7,7 +7,7 @@ const TrafficChart = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const res = await axios.get("http://65.2.129.154:3000/api/traffic-data"); // your route
+        const res = await axios.get("http://13.204.85.69/:3000/api/traffic-data"); // your route
         const { labels, values } = res.data;
 
         const scaledData = labels.map((label, i) => ({
@@ -46,4 +46,4 @@ const TrafficChart = () => {
 
 export default TrafficChart;
 
-// http://65.2.129.154:3000/api/traffic-data
+// http://13.204.85.69/:3000/api/traffic-data
