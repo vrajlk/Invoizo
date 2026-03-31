@@ -14,7 +14,7 @@ function TotalRevenueCardWrapper() {
       try {
         
        
-        const res = await fetch(`http://13.204.85.69/:3000/api/total-revenue?adminId=${adminId}`) // update route if needed
+        const res = await fetch(`http://13.232.106.238:3000/api/total-revenue?adminId=${adminId}`) // update route if needed
         const data = await res.json()
         setData(data);
         console.log("Total Revenue data:", data);

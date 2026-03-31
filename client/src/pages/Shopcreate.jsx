@@ -11,7 +11,7 @@ const Shopcreate = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const response = await axios.get("http://13.204.85.69/:3000/api/admin/check-auth", {
+        const response = await axios.get("http://13.232.106.238:3000/api/admin/check-auth", {
           withCredentials: true,
         });
 
@@ -39,7 +39,7 @@ const Shopcreate = () => {
   const handleShopCreate = async () => {
     try {
       const response = await axios.post(
-        "http://13.204.85.69/:3000/api/shop/create-shop",
+        "http://13.232.106.238:3000/api/shop/create-shop",
         { shopname: shopName },
         { withCredentials: true } // Ensures cookies are sent
       );

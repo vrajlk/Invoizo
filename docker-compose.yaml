@@ -6,7 +6,7 @@ services:
       context: ./client
       dockerfile: Dockerfile
       args:
-        - VITE_API_URL=http://13.204.85.69//api
+        - VITE_API_URL=http://13.232.106.238/api
     env_file:
       - ./client/.env
     environment:
