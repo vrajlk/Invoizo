@@ -7,6 +7,7 @@ services:
       dockerfile: Dockerfile
       args:
         - VITE_API_URL=http://13.232.106.238/api
+    image: lostvraj/invoizo-client:latest
     env_file:
       - ./client/.env
     environment:
@@ -23,6 +24,10 @@ services:
     build:
       context: ./server
       dockerfile: Dockerfile
+    image: lostvraj/invoizo-server:latest  
+    environment:
+      - MONGO_URI=mongodb+srv://vrajlk:vrajlk@myshop.v9upd.mongodb.net/Myshop?retryWrites=true&w=majority&appName=MyShop
+      - JWT_SECRET=vrajlk
     ports:
       - "3000:3000"
     restart: always  
