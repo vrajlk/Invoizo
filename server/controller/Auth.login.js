@@ -26,11 +26,10 @@ const loginAdmin = async (req, res) => {
         if (isWeb) {
             // For Web: Store token in an HTTP-only cookie
             res.cookie("token", token, {
-                httpOnly: false,
-                secure: false, 
+                httpOnly: true, //Changed to true (Better security)
+                secure: false, // Must be false because I don't have SSL (HTTPS) yet
                 // secure: process.env.NODE_ENV === "production",
-                sameSite: "None"
-
+                sameSite: "lax", // Changed from "None" to "Lax"
             });
             return res.status(200).json({
                 message: "Admin logged in successfully on web", 
